@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lernkarten · Unternehmen als vernetzte Systeme</title>
+<meta name="description" content="Interaktive Lernkarten zu allen 42 Fragen des Fragenkatalogs: Aufbauorganisation, Auftragsabwicklung, EPK, Prozessdarstellung, Kommissionierung, IT-Unterstützung.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;700;800&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0F2130;--ink-2:#1B3648;
+  --paper:#F1F3F2;--card:#FFFFFF;
+  --line:#CAD4D8;--line-soft:#E2E8EA;
+  --text:#152430;--muted:#56676F;
+  --signal:#E29A18;--signal-soft:#FBEFD5;
+  --teal:#0E6C77;--teal-soft:#DCEDEF;
+  --rose:#C0475F;--rose-soft:#F8E3E7;
+  --green:#2C8A61;--green-soft:#DEF0E7;
+  --amber:#D9A62B;--amber-soft:#FBF0D3;
+  --indigo:#3B5BA0;--indigo-soft:#E1E7F3;
+  --plum:#6C4F8C;--plum-soft:#E7E0F0;
+  --r:12px;
+  --font-h:"Archivo","Helvetica Neue",Arial,sans-serif;
+  --font-b:"IBM Plex Sans","Segoe UI",Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--text);font-family:var(--font-b);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{font-family:var(--font-h);line-height:1.14;margin:0;letter-spacing:-.015em}
+p{margin:0 0 14px}
+strong{font-weight:600}
+:focus-visible{outline:3px solid var(--signal);outline-offset:2px;border-radius:4px}
+button{font-family:var(--font-b)}
+
+/* -------- Kopf -------- */
+.hero{position:relative;background:var(--ink);color:#EAF0F2;padding:52px 24px 40px;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(135deg,rgba(226,154,24,.10) 0 14px,transparent 14px 44px);pointer-events:none}
+.hero-inner{position:relative;max-width:1100px;margin:0 auto}
+.eyebrow{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:#8FA6AF;margin-bottom:10px;font-weight:600}
+.hero h1{font-size:clamp(30px,5vw,46px);font-weight:800;letter-spacing:-.02em;margin-bottom:14px;max-width:18ch}
+.hero p.lead{font-size:clamp(15.5px,1.6vw,18px);max-width:62ch;color:#B9C8CE;margin-bottom:22px}
+.hero-stats{display:flex;flex-wrap:wrap;gap:10px}
+.hstat{border:1px solid rgba(234,240,242,.25);border-radius:100px;padding:7px 16px;font-size:14px;color:#CFDCE1;display:flex;align-items:center;gap:8px}
+.hstat b{color:#fff;font-family:var(--font-h)}
+.globalbar{margin-top:24px}
+.gb-track{height:8px;background:rgba(234,240,242,.15);border-radius:100px;overflow:hidden}
+.gb-fill{height:100%;background:var(--signal);width:0%;transition:width .4s ease}
+.gb-label{font-size:13px;color:#8FA6AF;margin-top:8px;display:flex;justify-content:space-between}
+.resetbtn{background:none;border:1px solid rgba(234,240,242,.3);color:#CFDCE1;border-radius:100px;padding:5px 13px;font-size:13px;cursor:pointer}
+.resetbtn:hover{background:rgba(234,240,242,.1)}
+
+main{max-width:1100px;margin:0 auto;padding:0 24px 90px}
+
+/* -------- Übersicht: Deck-Kacheln -------- */
+#view-overview{padding-top:40px}
+.sectiontitle{display:flex;align-items:baseline;justify-content:space-between;gap:14px;margin-bottom:18px;flex-wrap:wrap}
+.sectiontitle h2{font-size:clamp(22px,3vw,28px);font-weight:800}
+.sectiontitle p{margin:0;color:var(--muted);font-size:15px}
+.deckgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(255px,1fr));gap:16px;margin-bottom:38px}
+.deckcard{
+  background:var(--card);border:1px solid var(--line);border-left:6px solid var(--signal);border-radius:var(--r);
+  padding:20px 20px 18px;cursor:pointer;text-align:left;display:flex;flex-direction:column;gap:10px;
+  font-family:var(--font-b);transition:transform .12s ease, box-shadow .12s ease;
+}
+.deckcard:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(15,33,48,.08)}
+.deckcard .dk-num{font-family:var(--font-h);font-size:13px;font-weight:700;color:var(--muted)}
+.deckcard h3{font-size:19px;font-weight:700;color:var(--ink)}
+.deckcard .dk-meta{font-size:13.5px;color:var(--muted)}
+.dk-progress-track{height:6px;background:var(--line-soft);border-radius:100px;overflow:hidden;margin-top:4px}
+.dk-progress-fill{height:100%;border-radius:100px}
+.dk-cta{font-size:14px;font-weight:600;color:var(--ink);margin-top:4px;display:flex;align-items:center;gap:6px}
+.deckcard:hover .dk-cta{color:var(--signal)}
+
+.allcard{
+  background:var(--ink);color:#fff;border-radius:var(--r);padding:26px 28px;margin-bottom:40px;
+  display:flex;flex-wrap:wrap;gap:18px;align-items:center;justify-content:space-between;cursor:pointer;
+  border:1px solid var(--ink);
+}
+.allcard:hover{background:var(--ink-2)}
+.allcard h3{font-size:22px;font-weight:800;margin-bottom:4px}
+.allcard p{margin:0;color:#B9C8CE;font-size:14.5px}
+.allcard .cta{background:var(--signal);color:#241705;font-family:var(--font-h);font-weight:700;font-size:14.5px;border-radius:100px;padding:10px 20px;white-space:nowrap}
+
+.howto{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:22px 24px;margin-bottom:10px}
+.howto h3{font-size:16px;margin-bottom:10px}
+.howto ul{margin:0;padding-left:20px;font-size:14.5px;color:var(--muted)}
+.howto li{margin-bottom:6px}
+kbd{background:#EDF1F2;border:1px solid var(--line);border-radius:4px;padding:1px 7px;font-family:var(--font-b);font-size:12.5px;color:var(--ink)}
+
+/* -------- Studienansicht -------- */
+#view-study{display:none;padding-top:28px}
+.study-top{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;margin-bottom:18px}
+.backbtn{background:none;border:1px solid var(--line);border-radius:100px;padding:8px 16px;font-size:14px;color:var(--ink);cursor:pointer;display:flex;align-items:center;gap:6px}
+.backbtn:hover{background:#fff;border-color:var(--muted)}
+.study-title{display:flex;align-items:center;gap:10px}
+.study-title h2{font-size:20px;font-weight:700}
+.chips{display:flex;flex-wrap:wrap;gap:7px}
+.chip{font-family:var(--font-b);font-size:13.5px;cursor:pointer;background:#fff;color:var(--muted);border:1px solid var(--line);border-radius:100px;padding:6px 13px}
+.chip:hover{color:var(--text);border-color:var(--muted)}
+.chip[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:#fff}
+
+.studybar{height:7px;background:var(--line-soft);border-radius:100px;overflow:hidden;margin-bottom:8px}
+.studybar-fill{height:100%;background:var(--signal);transition:width .3s ease}
+.studymeta{display:flex;justify-content:space-between;font-size:13.5px;color:var(--muted);margin-bottom:22px}
+
+.stage{display:flex;justify-content:center;margin-bottom:22px}
+.flipzone{width:100%;max-width:640px;perspective:1600px}
+.flipcard{position:relative;width:100%;min-height:280px;transform-style:preserve-3d;transition:transform .5s cubic-bezier(.4,.2,.2,1);cursor:pointer}
+.flipcard.flipped{transform:rotateY(180deg)}
+.face{
+  position:absolute;inset:0;backface-visibility:hidden;border-radius:16px;border:1px solid var(--line);
+  padding:30px 32px;display:flex;flex-direction:column;background:var(--card);
+  box-shadow:0 2px 0 rgba(15,33,48,.04), 0 12px 28px rgba(15,33,48,.06);
+}
+.face.front{justify-content:center}
+.face.back{transform:rotateY(180deg);background:#FAFBFB}
+.facetag{
+  align-self:flex-start;font-family:var(--font-h);font-weight:700;font-size:11.5px;letter-spacing:.04em;
+  color:#fff;border-radius:6px;padding:4px 10px;margin-bottom:16px;
+}
+.facenum{position:absolute;top:18px;right:20px;font-family:var(--font-h);font-size:13px;color:var(--muted)}
+.faceq{font-family:var(--font-h);font-weight:700;font-size:clamp(18px,2.4vw,23px);color:var(--ink);line-height:1.32}
+.facehint{margin-top:auto;padding-top:18px;font-size:13px;color:var(--muted);display:flex;align-items:center;gap:6px}
+.facea-label{font-family:var(--font-h);font-size:12px;font-weight:700;letter-spacing:.04em;color:var(--teal);margin-bottom:10px;text-transform:uppercase}
+.facea{font-size:15.5px;color:var(--text);overflow-y:auto}
+
+.ratingrow{display:flex;gap:12px;justify-content:center;margin-bottom:20px;flex-wrap:wrap}
+.ratebtn{
+  font-family:var(--font-h);font-weight:700;font-size:15px;border-radius:12px;padding:13px 26px;cursor:pointer;
+  border:2px solid; display:flex;align-items:center;gap:9px;
+}
+.rate-again{background:var(--rose-soft);border-color:var(--rose);color:#6E2233}
+.rate-again:hover{background:#F3CCD4}
+.rate-know{background:var(--green-soft);border-color:var(--green);color:#1C5C40}
+.rate-know:hover{background:#C9E8D9}
+
+.navrow{display:flex;justify-content:center;gap:10px;align-items:center}
+.navbtn{background:#fff;border:1px solid var(--line);border-radius:100px;padding:9px 18px;font-size:14.5px;color:var(--ink);cursor:pointer}
+.navbtn:hover{border-color:var(--muted)}
+.navbtn:disabled{opacity:.35;cursor:not-allowed}
+.navbtn.primary{background:var(--ink);border-color:var(--ink);color:#fff}
+.navbtn.primary:hover{background:var(--ink-2)}
+.hintline{text-align:center;font-size:13px;color:var(--muted);margin-top:16px}
+
+/* -------- Abschlussbildschirm -------- */
+#view-done{display:none;padding-top:60px;text-align:center}
+.donewrap{max-width:560px;margin:0 auto}
+.donewrap h2{font-size:clamp(26px,4vw,34px);margin-bottom:14px}
+.donewrap p.sub{color:var(--muted);font-size:16px;margin-bottom:30px}
+.donestats{display:flex;gap:16px;justify-content:center;margin-bottom:34px;flex-wrap:wrap}
+.donestat{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:20px 28px;min-width:140px}
+.donestat .n{font-family:var(--font-h);font-size:34px;font-weight:800}
+.donestat .l{font-size:13px;color:var(--muted);margin-top:4px}
+.donebtns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+
+footer{background:var(--ink);color:#93A8B1;padding:34px 24px;font-size:14px;margin-top:40px}
+footer div{max-width:1100px;margin:0 auto}
+footer b{color:#fff;font-family:var(--font-h)}
+@media (prefers-reduced-motion:reduce){*{transition-duration:.01ms !important}}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-inner">
+    <div class="eyebrow">Lernkarten · passend zum Fragenkatalog</div>
+    <h1>Alle 42 Fragen zum Durchklicken, nicht nur zum Durchlesen.</h1>
+    <p class="lead">Jede Frage aus dem Fragenkatalog zu „Unternehmen als vernetzte Systeme“ wurde in eine Lernkarte verwandelt. Frage ansehen, selbst antworten, umdrehen, ehrlich einschätzen – so bleibt mehr hängen als beim reinen Lesen der Lösung.</p>
+    <div class="hero-stats">
+      <span class="hstat"><b>42</b> Karten</span>
+      <span class="hstat"><b>7</b> Kapitel-Decks</span>
+      <span class="hstat">Fortschritt wird in deinem Browser gespeichert</span>
+    </div>
+    <div class="globalbar">
+      <div class="gb-track"><div class="gb-fill" id="gbFill"></div></div>
+      <div class="gb-label">
+        <span id="gbText">0 von 42 Karten sicher gewusst</span>
+        <button class="resetbtn" id="resetAll">Gesamten Fortschritt zurücksetzen</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<!-- ======== ÜBERSICHT ======== -->
+<section id="view-overview">
+
+  <div class="allcard" id="startAll">
+    <div>
+      <h3>Alle 42 Karten am Stück</h3>
+      <p>Einmal komplett durch alle sechs Kapitel plus Abschlussaufgaben – in der Reihenfolge des Fragenkatalogs.</p>
+    </div>
+    <div class="cta">Jetzt starten →</div>
+  </div>
+
+  <div class="sectiontitle">
+    <h2>Oder gezielt nach Kapitel üben</h2>
+    <p>Die Einteilung folgt exakt dem roten Faden des Fragenkatalogs.</p>
+  </div>
+  <div class="deckgrid" id="deckGrid"></div>
+
+  <div class="howto">
+    <h3>So funktionieren die Karten</h3>
+    <ul>
+      <li>Karte anklicken oder <kbd>Leertaste</kbd> drücken, um die Antwort zu sehen.</li>
+      <li>Danach ehrlich einschätzen: <strong>„Weiß ich“</strong> oder <strong>„Nochmal“</strong> – Karten mit „Nochmal“ kommen im selben Durchgang später erneut dran.</li>
+      <li>Mit den Pfeiltasten <kbd>←</kbd> <kbd>→</kbd> navigieren, mit <kbd>1</kbd> „Nochmal“ und <kbd>2</kbd> „Weiß ich“ bewerten.</li>
+      <li>Dein Fortschritt bleibt gespeichert, auch wenn du die Seite schließt und später weitermachst.</li>
+    </ul>
+  </div>
+
+</section>
+
+<!-- ======== STUDIENANSICHT ======== -->
+<section id="view-study">
+  <div class="study-top">
+    <button class="backbtn" id="backBtn">← Zur Übersicht</button>
+    <div class="chips" id="tagFilter"></div>
+  </div>
+  <div class="study-title">
+    <h2 id="deckTitle"></h2>
+  </div>
+
+  <div class="studybar"><div class="studybar-fill" id="studyBarFill"></div></div>
+  <div class="studymeta">
+    <span id="studyMetaLeft">Karte 1 von 7</span>
+    <span id="studyMetaRight">0 gewusst · 0 nochmal</span>
+  </div>
+
+  <div class="stage">
+    <div class="flipzone">
+      <div class="flipcard" id="flipcard" tabindex="0" role="button" aria-label="Karte umdrehen">
+        <div class="face front">
+          <div class="facetag" id="faceTagFront">WISSEN</div>
+          <div class="facenum" id="faceNumFront"></div>
+          <div class="faceq" id="faceQ"></div>
+          <div class="facehint">↻ Klicken oder Leertaste zum Umdrehen</div>
+        </div>
+        <div class="face back">
+          <div class="facetag" id="faceTagBack">WISSEN</div>
+          <div class="facenum" id="faceNumBack"></div>
+          <div class="facea-label">Antwort</div>
+          <div class="facea" id="faceA"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ratingrow" id="ratingRow" style="visibility:hidden">
+    <button class="ratebtn rate-again" id="rateAgain">↺ Nochmal <span style="opacity:.7;font-weight:400">(1)</span></button>
+    <button class="ratebtn rate-know" id="rateKnow">✓ Weiß ich <span style="opacity:.7;font-weight:400">(2)</span></button>
+  </div>
+
+  <div class="navrow">
+    <button class="navbtn" id="prevBtn">← Zurück</button>
+    <button class="navbtn primary" id="flipBtn">Antwort zeigen</button>
+    <button class="navbtn" id="skipBtn">Weiter →</button>
+  </div>
+  <p class="hintline">Pfeiltasten zum Blättern · <kbd>Leertaste</kbd> zum Umdrehen · <kbd>1</kbd>/<kbd>2</kbd> zum Bewerten</p>
+</section>
+
+<!-- ======== ABSCHLUSS ======== -->
+<section id="view-done">
+  <div class="donewrap">
+    <h2 id="doneTitle">Kapitel geschafft!</h2>
+    <p class="sub" id="doneSub">Hier ist dein Ergebnis für diesen Durchgang.</p>
+    <div class="donestats">
+      <div class="donestat"><div class="n" id="doneKnow" style="color:var(--green)">0</div><div class="l">weißt du sicher</div></div>
+      <div class="donestat"><div class="n" id="doneAgain" style="color:var(--rose)">0</div><div class="l">nochmal üben</div></div>
+      <div class="donestat"><div class="n" id="doneTotal">0</div><div class="l">Karten insgesamt</div></div>
+    </div>
+    <div class="donebtns">
+      <button class="navbtn" id="doneRestart">Diese Karten nochmal</button>
+      <button class="navbtn primary" id="doneNext">Nächstes Kapitel →</button>
+      <button class="navbtn" id="doneOverview">Zur Übersicht</button>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div>
+    <p style="margin:0 0 8px"><b>Lernkarten · Unternehmen als vernetzte Systeme</b> · Wirtschaftsinformatik, Jahrgangsstufe 10</p>
+    <p style="margin:0">Fragen und Lösungen basieren auf dem Fragenkatalog zum gleichnamigen interaktiven Lernmodul (Aufbauorganisation, Auftragsabwicklung, EPK, Kommissionierung, Versand, IT-Unterstützung). Diese Seite speichert deinen Lernfortschritt ausschließlich lokal in deinem Browser – es werden keine Daten übertragen.</p>
+  </div>
+</footer>
+<script>
+/* ===================== DATEN ===================== */
+const DECKS = [
+  {id:'d1', num:'1', title:'Aufbauorganisation', sub:'der Bauplan des Unternehmens', range:[1,7], color:'var(--signal)', colorSoft:'var(--signal-soft)'},
+  {id:'d2', num:'2', title:'Auftragsabwicklung', sub:'der Auftrag wandert', range:[8,12], color:'var(--teal)', colorSoft:'var(--teal-soft)'},
+  {id:'d3', num:'3', title:'Ereignisgesteuerte Prozesskette', sub:'den Ablauf eindeutig darstellen', range:[13,21], color:'var(--rose)', colorSoft:'var(--rose-soft)'},
+  {id:'d4', num:'4', title:'Prozesse darstellen', sub:'übersichtlich und einheitlich', range:[22,25], color:'var(--indigo)', colorSoft:'var(--indigo-soft)'},
+  {id:'d5', num:'5', title:'Kommissionierung & Versand', sub:'vom Regal zum Kunden', range:[26,31], color:'var(--green)', colorSoft:'var(--green-soft)'},
+  {id:'d6', num:'6', title:'IT-Unterstützung', sub:'Prozesse digital beschleunigen', range:[32,38], color:'var(--plum)', colorSoft:'var(--plum-soft)'},
+  {id:'dz', num:'Z', title:'Abschlussaufgaben', sub:'alles zusammenführen', range:[39,42], color:'var(--amber)', colorSoft:'var(--amber-soft)'}
+];
+
+function deckOf(n){ return DECKS.find(d => n >= d.range[0] && n <= d.range[1]); }
+
+const CARDS = [
+{n:1, tag:'WISSEN', q:'Nenne die beiden Sichten auf ein Unternehmen und formuliere zu jeder die Frage, die sie beantwortet.', a:'<b>Aufbauorganisation</b> – „Wer ist wofür zuständig?" (statische Struktur).<br><b>Ablauforganisation</b> – „Wann läuft was in welcher Reihenfolge ab?" (Prozesse).<br>Die Aufbauorganisation liefert die Kästen, die Ablauforganisation die Pfeile dazwischen.'},
+{n:2, tag:'WISSEN', q:'Erkläre Stelle, Abteilung und Instanz – mit Beispiel aus dem Organigramm des Fleischproduzenten.', a:'<b>Stelle:</b> kleinste Einheit, z. B. Sachbearbeiter Einkauf.<br><b>Abteilung:</b> mehrere Stellen mit verwandten Aufgaben, z. B. Einkauf mit Beschaffung und Kühllager.<br><b>Instanz:</b> Stelle mit Weisungsbefugnis, z. B. die Geschäftsführung.'},
+{n:3, tag:'WISSEN', q:'Wozu dient ein Organigramm? Was bedeuten die durchgezogenen Linien?', a:'Es zeigt Aufbau, Struktur und Aufgabenverteilung – wie eine Landkarte schafft es Übersicht und Orientierung.<br>Die durchgezogenen Linien sind die <b>Weisungswege</b>: Sie zeigen, wer wem unterstellt ist.'},
+{n:4, tag:'LERNMODUL', q:'Nenne die vier Hauptbereiche des Fleischproduzenten und ordne Kühllager, Marktforschung, IT-Abteilung zu.', a:'Einkauf, Absatz, Produktion, Verwaltung.<br>Kühllager → <b>Einkauf</b>; Marktforschung → <b>Absatz</b>; IT-Abteilung → <b>Verwaltung</b>.'},
+{n:5, tag:'LERNMODUL', q:'Nach welchem Kriterium sind Bauunternehmen bzw. Logistik-Dienstleister auf der ersten Ebene gegliedert?', a:'<b>Bauunternehmen:</b> nach Leistungsbereichen (Hochbau, Tiefbau …) – Spezialwissen bleibt gebündelt.<br><b>Logistik-Dienstleister:</b> nach Reichweite des Marktes (Regional/National/International) – jeder Bereich ist auf seinen Markt zugeschnitten.'},
+{n:6, tag:'LERNMODUL', q:'Woran erkennst du Einlinien-, Mehrlinien- und Stab-Linien-System im Diagramm?', a:'<b>Einliniensystem:</b> genau eine Linie je Stelle.<br><b>Mehrliniensystem:</b> mehrere Linien laufen bei einer Stelle zusammen.<br><b>Stab-Linien-System:</b> zusätzliche gestrichelte Linie seitlich zu einer beratenden, nicht weisungsbefugten Stabsstelle.'},
+{n:7, tag:'TRANSFER', q:'Warum ist das Organigramm das „Vokabelheft" für alle folgenden Kapitel?', a:'Jede Abteilung taucht später wieder auf: in der EPK als Organisationseinheit, im Swimlane-Diagramm als Bahn.<br>Ohne Organigramm fehlt das Vokabular für die Zuständigkeiten.'},
+
+{n:8, tag:'WISSEN', q:'Nenne die vier Abteilungen, die ein Kundenauftrag durchläuft, in der richtigen Reihenfolge.', a:'<b>Vertrieb</b> (nimmt an, prüft Verfügbarkeit) → <b>Lager</b> (kommissioniert) → <b>Versandabteilung</b> (verpackt, verschickt) → <b>Buchhaltung</b> (stellt Rechnung).'},
+{n:9, tag:'LERNMODUL', q:'Station Lager: Nenne Auslöser, Ergebnis, Daten und Weitergabe.', a:'<b>Auslöser:</b> Kommissionierauftrag liegt vor.<br><b>Ergebnis:</b> Ware ist bereitgestellt.<br><b>Daten:</b> Pickliste mit Lagerplätzen, gebuchte Entnahmen.<br><b>Weitergabe:</b> bereitgestellte Ware an den Versand.'},
+{n:10, tag:'LERNMODUL', q:'Welche Daten gehen von Vertrieb an Lager, und welcher Fehler droht ohne gemeinsame Daten?', a:'<b>Daten:</b> Kommissionierliste mit Artikelnummern, Mengen, Lagerplätzen.<br><b>Fehler:</b> Die Ware ist längst verkauft, der Bestand auf dem Zettel ist aber noch der alte.'},
+{n:11, tag:'WISSEN', q:'Warum gilt der Auftrag erst nach der Rechnung als abgeschlossen?', a:'Die Buchhaltung erstellt die Rechnung und überwacht den Zahlungseingang – erst mit der bezahlten Rechnung ist der Geschäftsvorfall vollständig abgeschlossen.'},
+{n:12, tag:'TRANSFER', q:'Wodurch wird aus einzelnen Abteilungen ein vernetztes System?', a:'Der Auftrag bleibt nie in einer Abteilung, sondern <b>wandert</b>. Der Prozess verbindet die Kästen des Organigramms – bei jeder Übergabe werden Verantwortung und Daten weitergereicht.'},
+
+{n:13, tag:'WISSEN', q:'Nenne die drei Grundsymbole der EPK mit Form und Bedeutung.', a:'<b>Ereignis</b> (Sechseck): eingetretener Zustand, passiv.<br><b>Funktion</b> (abgerundetes Rechteck): Tätigkeit, aktiv.<br><b>Organisationseinheit</b> (Oval): wer führt die Funktion aus.'},
+{n:14, tag:'WISSEN', q:'Formuliere die wichtigste Regel der EPK. Womit beginnt/endet sie?', a:'Ereignis und Funktion wechseln sich <b>immer ab</b>, zwei Funktionen dürfen nie direkt aufeinanderfolgen.<br>Eine EPK beginnt und endet mit einem <b>Ereignis</b>.'},
+{n:15, tag:'WISSEN', q:'Ordne zu: (a) Ware verpacken (b) Rechnung ist gestellt (c) Buchhaltung (d) Auftrag liegt vor (e) Verfügbarkeit prüfen.', a:'(a) Funktion, (b) Ereignis, (c) Organisationseinheit, (d) Ereignis, (e) Funktion.'},
+{n:16, tag:'WISSEN', q:'Erkläre UND, ODER, XOR mit je einem Beispiel aus der Auftragsabwicklung.', a:'<b>UND:</b> alle Wege, z. B. Lieferschein drucken + Rechnung anstoßen gleichzeitig.<br><b>ODER:</b> mindestens ein Weg, z. B. Info per E-Mail und/oder SMS.<br><b>XOR:</b> genau ein Weg, z. B. vollständige Lieferung oder Teillieferung.'},
+{n:17, tag:'LERNMODUL', q:'Was verändert sich an der EPK, wenn die XOR-Verzweigung bei „Ware bereitgestellt" ergänzt wird?', a:'Zwei Zweige entstehen: „Lieferung vollständig" → Verpacken & versenden, und „Nur Teilmenge verfügbar" → Teillieferung erzeugen.<br>Ein zweiter XOR führt beide wieder zusammen vor dem Endereignis.'},
+{n:18, tag:'LERNMODUL', q:'Notiere die vollständige EPK aus sieben Bausteinen (Kommissionierung/Versand).', a:'Kundenauftrag liegt vor (E) → Verfügbarkeit prüfen (F) → Ware ist verfügbar (E) → Ware kommissionieren (F) → Ware bereitgestellt (E) → Verpacken & versenden (F) → Ware ist versendet (E).'},
+{n:19, tag:'LERNMODUL', q:'Ordne die vier Funktionen ihrer Organisationseinheit zu.', a:'Auftrag erfassen → <b>Vertrieb</b>; Ware kommissionieren → <b>Lager</b>; Verpacken & versenden → <b>Versand</b>; Rechnung erstellen → <b>Buchhaltung</b>.'},
+{n:20, tag:'TRANSFER', q:'Fehlersuche: „Auftrag liegt vor → Verfügbarkeit prüfen → Ware kommissionieren → Ware ist versendet". Was ist falsch?', a:'Zwei Funktionen folgen direkt aufeinander, und vor dem Endereignis fehlt „Verpacken & versenden".<br>Korrekt mit den Zwischenereignissen „Ware ist verfügbar" und „Ware bereitgestellt" ergänzen.'},
+{n:21, tag:'TRANSFER', q:'Wo wechselt in der EPK „Kommissionierung und Versand" die Zuständigkeit – und woran erkennst du das?', a:'Zwischen „Ware kommissionieren" und „Verpacken & versenden" – erkennbar am Wechsel der Organisationseinheit von <b>Lager</b> zu <b>Versand</b>.'},
+
+{n:22, tag:'WISSEN', q:'Erkläre den Aufbau eines Schwimmbahnen-Diagramms. Woher stammen die Bahnnamen?', a:'Das Diagramm wird quergelegt, jede Abteilung erhält eine eigene waagerechte Bahn, jede Funktion steht in der Bahn der zuständigen Abteilung.<br>Die Namen stammen aus dem <b>Organigramm</b>.'},
+{n:23, tag:'LERNMODUL', q:'Wie viele Schnittstellen hat die Auftragsabwicklung in Schwimmbahnen, und zwischen welchen Abteilungen?', a:'<b>Drei Schnittstellen:</b> Vertrieb → Lager, Lager → Versandabteilung, Versandabteilung → Buchhaltung.'},
+{n:24, tag:'WISSEN', q:'Nenne die fünf Grundregeln für jede Prozessdarstellung.', a:'Einheitliche Symbole; klare Leserichtung; kurze, eindeutige Beschriftungen; Namen aus dem Organigramm; Verzweigungen nur mit Konnektor.'},
+{n:25, tag:'TRANSFER', q:'Warum entstehen an Schnittstellen die meisten Fehler, und welche zwei Maßnahmen helfen dagegen?', a:'Verantwortung und Datenträger wechseln, Informationen müssen übergeben/abgeschrieben werden.<br><b>Maßnahmen:</b> gemeinsame Datenbasis im ERP-System, eindeutig definierte Übergabepunkte mit Beleg (Scan, Lieferschein).'},
+
+{n:26, tag:'WISSEN', q:'Definiere Kommissionierung. Wozu dient die Pickliste?', a:'Zusammenstellen der bestellten Artikel aus dem Lagerbestand nach Kommissionierliste (Pickliste).<br>Sie steuert den Weg durchs Lager und enthält Artikelnummer, Menge, Lagerplatz.'},
+{n:27, tag:'WISSEN', q:'Beschreibe den Ablauf der Kommissionierung in fünf Schritten.', a:'Pickliste erhalten → zu den Lagerplätzen gehen → Artikelmenge entnehmen (picken) → auf Vollständigkeit prüfen → an den Packplatz bringen.'},
+{n:28, tag:'LERNMODUL', q:'Nenne die vier Positionen der Pickliste (Auftrag 2026-4711) mit Lagerplatz/Menge. Welches Ereignis tritt am Ende ein?', a:'Dichtmasse grau (A-03, 12 Stück); Kartuschenpistole (B-11, 2 Stück); Abdeckvlies 25 m (C-02, 4 Rollen); Reinigungstücher (D-07, 1 Karton).<br><b>Endereignis:</b> „Ware bereitgestellt".'},
+{n:29, tag:'LERNMODUL', q:'Erkläre Mann zur Ware und Ware zum Mann – je ein Vor- und Nachteil.', a:'<b>Mann zur Ware:</b> Person läuft zum Regal – flexibel/günstig, aber Laufwege kosten Zeit.<br><b>Ware zum Mann:</b> automatische Systeme bringen Ware zur Person – schnell/ohne Laufwege, aber hohe Investitionskosten.'},
+{n:30, tag:'WISSEN', q:'Nenne die vier Schritte der Versandabwicklung.', a:'1. Ware verpacken. 2. Versandpapiere erstellen (Lieferschein, Versandetikett). 3. Versandart/Dienstleister wählen. 4. Sendung übergeben und Sendungsnummer erfassen.'},
+{n:31, tag:'TRANSFER', q:'Warum wird die Sendungsnummer erfasst, obwohl die Ware das Haus schon verlassen hat?', a:'Sie ist Nachweis der Übergabe (Grundlage für die Rechnung) und macht den Weg der Sendung über die <b>Sendungsverfolgung</b> online abrufbar.'},
+
+{n:32, tag:'WISSEN', q:'Erkläre die Aufgabe eines ERP-Systems. Welche vier Bereiche arbeiten auf denselben Daten?', a:'Zentrales System (z. B. SAP): <b>Auftrag, Lagerbestand, Versand und Rechnung</b> arbeiten auf denselben Daten – bucht der Vertrieb, sieht das Lager es sofort.'},
+{n:33, tag:'WISSEN', q:'Nenne drei Aufgaben eines Lagerverwaltungssystems (LVS/WMS).', a:'Erzeugt Picklisten, kennt jeden Lagerplatz, bucht Entnahmen automatisch, berechnet den kürzesten Laufweg.'},
+{n:34, tag:'WISSEN', q:'Wozu dienen Barcode/RFID? Worin unterscheiden sich Pick-by-Light und Pick-by-Voice?', a:'Scan stellt sicher, dass der richtige Artikel entnommen wird, Bestand stimmt sofort.<br><b>Pick-by-Light:</b> Lichtsignal am Fach. <b>Pick-by-Voice:</b> Sprachansage im Headset.'},
+{n:35, tag:'WISSEN', q:'Was bedeutet EDI? Welchen Nutzen hat die Sendungsverfolgung?', a:'<b>EDI</b> = elektronischer Datenaustausch zwischen Unternehmen, z. B. Etikett/Sendungsnummer direkt an den Paketdienst.<br><b>Sendungsverfolgung:</b> Kunde und Kundenservice sehen denselben Status, Rückfragen ohne Rückruf beim Fahrer.'},
+{n:36, tag:'LERNMODUL', q:'Welche Systeme helfen beim Schritt „Kommissionieren", und welchen Nutzen bringen sie?', a:'LVS (Pickliste, kürzester Weg), Barcode-Scanner (richtiger Artikel), Pick-by-Light/Voice (Führung zum Fach) – Entnahme wird automatisch gebucht.'},
+{n:37, tag:'LERNMODUL', q:'Nenne drei Unterschiede zwischen „ohne IT" und „mit IT".', a:'<b>Ohne IT:</b> Daten 3× erfasst, 3 Fehlerquellen, Bestand erst abends aktuell.<br><b>Mit IT:</b> 1× erfasst für alle, 0 Übertragungsfehler, Bestand live korrekt.'},
+{n:38, tag:'TRANSFER', q:'Formuliere den Kernsatz zur Rolle der IT – mit Beispiel.', a:'IT macht den Prozess schneller, fehlerärmer, transparenter – weil alle auf gemeinsame Daten zugreifen, wird aus Abteilungen ein vernetztes System.<br>Beispiel: Vertrieb sieht Echtzeitbestand, ohne im Lager anzurufen.'},
+
+{n:39, tag:'TRANSFER', q:'Zeichne (gedanklich) die vollständige EPK von „Kundenauftrag liegt vor" bis „Rechnung ist gestellt" inkl. Konnektor an der Verfügbarkeitsprüfung.', a:'… → Auftrag erfassen (Vertrieb) → Auftrag ist erfasst → Verfügbarkeit prüfen (Vertrieb) → <b>XOR</b> → [Ware verfügbar → kommissionieren (Lager) → bereitgestellt → verpacken & versenden (Versand) → versendet → Rechnung erstellen (Buchhaltung) → Rechnung gestellt] oder [nicht verfügbar → Kunde informieren/nachbestellen].<br>Konnektor: XOR, weil genau ein Fall eintritt.'},
+{n:40, tag:'TRANSFER', q:'Übertrage den Prozess in ein Schwimmbahnen-Diagramm mit vier Bahnen.', a:'<b>Vertrieb</b> (Auftrag erfassen, Verfügbarkeit prüfen) · <b>Lager</b> (kommissionieren) · <b>Versandabteilung</b> (verpacken & versenden) · <b>Buchhaltung</b> (Rechnung erstellen).<br>Drei Schnittstellen an den Bahnwechseln.'},
+{n:41, tag:'TRANSFER', q:'Ein Handwerksbetrieb hat kein LVS, Adressen werden abgetippt. Nenne drei Probleme und je eine IT-Lösung.', a:'Veralteter Bestand → <b>LVS</b> mit Echtzeitbestand.<br>Falsche Artikel beim Picken → <b>Barcode-Scan</b>, Pick-by-Light/Voice.<br>Tippfehler bei Adressen → <b>Versandsoftware mit EDI-Schnittstelle</b>.'},
+{n:42, tag:'TRANSFER', q:'Erkläre in fünf Sätzen den roten Faden des gesamten Themas.', a:'Aufbauorganisation zeigt im Organigramm, wer wofür zuständig ist; Ablauforganisation zeigt, wann was passiert. Der Auftrag durchläuft Vertrieb, Lager, Versand, Buchhaltung und macht sie zum vernetzten System. Die EPK stellt den Ablauf eindeutig dar (Ereignis/Funktion wechseln sich ab). Swimlanes zeigen Abteilungswechsel = Schnittstellen = Fehlerquellen. IT sorgt dafür, dass Daten nur einmal erfasst werden und allen zur Verfügung stehen.'}
+];
+
+/* ===================== STATE / PERSISTENCE ===================== */
+const LS_KEY = 'luvs_lernkarten_progress_v1';
+
+function loadProgress(){
+  try{
+    const raw = localStorage.getItem(LS_KEY);
+    if(!raw) return {};
+    return JSON.parse(raw) || {};
+  }catch(e){ return {}; }
+}
+function saveProgress(p){
+  try{ localStorage.setItem(LS_KEY, JSON.stringify(p)); }catch(e){}
+}
+let progress = loadProgress(); // { [cardNum]: 'know' | 'again' }
+
+function cardStatus(n){ return progress[n] || null; }
+function setCardStatus(n, status){
+  progress[n] = status;
+  saveProgress(progress);
+  renderGlobalBar();
+}
+function resetAllProgress(){
+  progress = {};
+  saveProgress(progress);
+  renderGlobalBar();
+  renderDeckGrid();
+}
+function resetDeckProgress(deckId){
+  const d = DECKS.find(x=>x.id===deckId);
+  if(!d) return;
+  for(let n=d.range[0]; n<=d.range[1]; n++){ delete progress[n]; }
+  saveProgress(progress);
+  renderGlobalBar();
+  renderDeckGrid();
+}
+
+function deckStats(deckId){
+  const d = DECKS.find(x=>x.id===deckId);
+  const total = d.range[1]-d.range[0]+1;
+  let know=0;
+  for(let n=d.range[0]; n<=d.range[1]; n++){ if(progress[n]==='know') know++; }
+  return {know, total};
+}
+function globalStats(){
+  let know=0;
+  CARDS.forEach(c=>{ if(progress[c.n]==='know') know++; });
+  return {know, total: CARDS.length};
+}
+
+/* ===================== OVERVIEW RENDER ===================== */
+const deckGridEl = document.getElementById('deckGrid');
+const gbFillEl = document.getElementById('gbFill');
+const gbTextEl = document.getElementById('gbText');
+
+function renderGlobalBar(){
+  const {know,total} = globalStats();
+  const pct = total ? Math.round(know/total*100) : 0;
+  gbFillEl.style.width = pct + '%';
+  gbTextEl.textContent = know + ' von ' + total + ' Karten sicher gewusst';
+}
+
+function renderDeckGrid(){
+  deckGridEl.innerHTML = '';
+  DECKS.forEach(d=>{
+    const {know,total} = deckStats(d.id);
+    const pct = total ? Math.round(know/total*100) : 0;
+    const card = document.createElement('div');
+    card.className = 'deckcard';
+    card.style.borderLeftColor = d.color;
+    card.innerHTML =
+      '<div class="dk-num" style="color:'+d.color+'">Deck '+d.num+'</div>'+
+      '<h3>'+d.title+'</h3>'+
+      '<div class="dk-meta">'+d.sub+' · Karten '+d.range[0]+'–'+d.range[1]+'</div>'+
+      '<div class="dk-progress-track"><div class="dk-progress-fill" style="width:'+pct+'%;background:'+d.color+'"></div></div>'+
+      '<div class="dk-meta">'+know+' / '+total+' sicher gewusst</div>'+
+      '<div class="dk-cta">Üben →</div>';
+    card.addEventListener('click', ()=> startSession(d.id));
+    deckGridEl.appendChild(card);
+  });
+}
+
+document.getElementById('startAll').addEventListener('click', ()=> startSession('all'));
+document.getElementById('resetAll').addEventListener('click', ()=>{
+  if(confirm('Gesamten Lernfortschritt für alle 42 Karten zurücksetzen?')){
+    resetAllProgress();
+  }
+});
+
+/* ===================== STUDY SESSION ===================== */
+const viewOverview = document.getElementById('view-overview');
+const viewStudy = document.getElementById('view-study');
+const viewDone = document.getElementById('view-done');
+
+let session = {
+  deckId: null,
+  queue: [],       // array of card numbers, current round
+  requeue: [],     // cards rated "again", to be appended
+  pos: 0,
+  know: 0,
+  again: 0,
+  flipped: false,
+  activeTags: new Set(['WISSEN','LERNMODUL','TRANSFER'])
+};
+
+const tagFilterEl = document.getElementById('tagFilter');
+const deckTitleEl = document.getElementById('deckTitle');
+const studyBarFillEl = document.getElementById('studyBarFill');
+const studyMetaLeftEl = document.getElementById('studyMetaLeft');
+const studyMetaRightEl = document.getElementById('studyMetaRight');
+const flipcardEl = document.getElementById('flipcard');
+const faceTagFrontEl = document.getElementById('faceTagFront');
+const faceTagBackEl = document.getElementById('faceTagBack');
+const faceNumFrontEl = document.getElementById('faceNumFront');
+const faceNumBackEl = document.getElementById('faceNumBack');
+const faceQEl = document.getElementById('faceQ');
+const faceAEl = document.getElementById('faceA');
+const ratingRowEl = document.getElementById('ratingRow');
+const prevBtn = document.getElementById('prevBtn');
+const flipBtn = document.getElementById('flipBtn');
+const skipBtn = document.getElementById('skipBtn');
+const rateAgainBtn = document.getElementById('rateAgain');
+const rateKnowBtn = document.getElementById('rateKnow');
+
+const TAG_COLORS = {
+  'WISSEN': {bg:'var(--teal-soft)', fg:'var(--teal)'},
+  'LERNMODUL': {bg:'var(--amber-soft)', fg:'var(--amber)'},
+  'TRANSFER': {bg:'var(--rose-soft)', fg:'var(--rose)'}
+};
+
+function cardsForDeck(deckId){
+  if(deckId==='all') return CARDS.map(c=>c.n);
+  const d = DECKS.find(x=>x.id===deckId);
+  const arr=[];
+  for(let n=d.range[0]; n<=d.range[1]; n++) arr.push(n);
+  return arr;
+}
+
+function startSession(deckId){
+  session.deckId = deckId;
+  session.activeTags = new Set(['WISSEN','LERNMODUL','TRANSFER']);
+  buildQueueAndStart();
+}
+
+function buildQueueAndStart(){
+  let nums = cardsForDeck(session.deckId).filter(n=>{
+    const c = CARDS.find(x=>x.n===n);
+    return session.activeTags.has(c.tag);
+  });
+  session.queue = nums;
+  session.requeue = [];
+  session.pos = 0;
+  session.know = 0;
+  session.again = 0;
+  session.flipped = false;
+
+  const d = session.deckId==='all' ? {title:'Alle 42 Karten', color:'var(--ink)'} : DECKS.find(x=>x.id===session.deckId);
+  deckTitleEl.textContent = d.title;
+  deckTitleEl.style.color = session.deckId==='all' ? 'var(--ink)' : d.color;
+
+  renderTagFilter();
+  viewOverview.style.display='none';
+  viewDone.style.display='none';
+  viewStudy.style.display='block';
+
+  if(session.queue.length===0){
+    renderNoCards();
+  } else {
+    renderCurrentCard();
+  }
+}
+
+function renderTagFilter(){
+  tagFilterEl.innerHTML='';
+  ['WISSEN','LERNMODUL','TRANSFER'].forEach(tag=>{
+    const chip=document.createElement('button');
+    chip.className='chip';
+    chip.textContent=tag;
+    chip.setAttribute('aria-pressed', session.activeTags.has(tag) ? 'true':'false');
+    chip.addEventListener('click', ()=>{
+      if(session.activeTags.has(tag)){
+        if(session.activeTags.size>1) session.activeTags.delete(tag);
+      } else {
+        session.activeTags.add(tag);
+      }
+      buildQueueAndStart();
+    });
+    tagFilterEl.appendChild(chip);
+  });
+}
+
+function renderNoCards(){
+  faceQEl.innerHTML = 'Für diese Filterauswahl sind keine Karten vorhanden. Wähle mindestens einen weiteren Tag aus.';
+  faceAEl.innerHTML = '';
+  ratingRowEl.style.visibility='hidden';
+  studyMetaLeftEl.textContent='0 Karten';
+  studyMetaRightEl.textContent='';
+  studyBarFillEl.style.width='0%';
+}
+
+function currentCardNum(){
+  return session.queue[session.pos];
+}
+
+function renderCurrentCard(){
+  const n = currentCardNum();
+  const c = CARDS.find(x=>x.n===n);
+  session.flipped = false;
+  flipcardEl.classList.remove('flipped');
+  faceQEl.innerHTML = c.q;
+  faceAEl.innerHTML = c.a;
+  faceNumFrontEl.textContent = 'Frage '+c.n;
+  faceNumBackEl.textContent = 'Frage '+c.n;
+  const tc = TAG_COLORS[c.tag];
+  [faceTagFrontEl, faceTagBackEl].forEach(el=>{
+    el.textContent = c.tag;
+    el.style.background = tc.bg;
+    el.style.color = tc.fg;
+  });
+  ratingRowEl.style.visibility='hidden';
+  flipBtn.textContent='Antwort zeigen';
+  prevBtn.disabled = session.pos===0;
+
+  const totalInRound = session.queue.length;
+  studyMetaLeftEl.textContent = 'Karte '+(session.pos+1)+' von '+totalInRound+(session.requeue.length? ' · +'+session.requeue.length+' zur Wiederholung':'');
+  studyMetaRightEl.textContent = session.know+' gewusst · '+session.again+' nochmal';
+  const pct = totalInRound ? Math.round((session.pos)/totalInRound*100) : 0;
+  studyBarFillEl.style.width = pct+'%';
+}
+
+function flipCard(){
+  if(session.queue.length===0) return;
+  session.flipped = !session.flipped;
+  flipcardEl.classList.toggle('flipped', session.flipped);
+  flipBtn.textContent = session.flipped ? 'Frage zeigen' : 'Antwort zeigen';
+  ratingRowEl.style.visibility = session.flipped ? 'visible' : 'hidden';
+}
+
+flipcardEl.addEventListener('click', flipCard);
+flipcardEl.addEventListener('keydown', (e)=>{
+  if(e.code==='Space' || e.code==='Enter'){ e.preventDefault(); flipCard(); }
+});
+flipBtn.addEventListener('click', flipCard);
+
+function rate(status){
+  const n = currentCardNum();
+  setCardStatus(n, status);
+  if(status==='know'){ session.know++; }
+  else { session.again++; session.requeue.push(n); }
+  advance();
+}
+rateAgainBtn.addEventListener('click', ()=> rate('again'));
+rateKnowBtn.addEventListener('click', ()=> rate('know'));
+
+function advance(){
+  session.pos++;
+  if(session.pos >= session.queue.length){
+    if(session.requeue.length>0){
+      session.queue = session.requeue;
+      session.requeue = [];
+      session.pos = 0;
+      renderCurrentCard();
+    } else {
+      finishSession();
+    }
+  } else {
+    renderCurrentCard();
+  }
+}
+
+skipBtn.addEventListener('click', ()=>{
+  if(session.queue.length===0) return;
+  advance();
+});
+prevBtn.addEventListener('click', ()=>{
+  if(session.pos>0){
+    session.pos--;
+    renderCurrentCard();
+  }
+});
+
+document.getElementById('backBtn').addEventListener('click', ()=>{
+  viewStudy.style.display='none';
+  viewOverview.style.display='block';
+  renderDeckGrid();
+});
+
+function finishSession(){
+  viewStudy.style.display='none';
+  viewDone.style.display='block';
+  const d = session.deckId==='all' ? null : DECKS.find(x=>x.id===session.deckId);
+  document.getElementById('doneTitle').textContent = session.deckId==='all' ? 'Alle 42 Karten geschafft!' : 'Kapitel geschafft: '+d.title;
+  document.getElementById('doneKnow').textContent = session.know;
+  document.getElementById('doneAgain').textContent = session.again;
+  document.getElementById('doneTotal').textContent = session.know+session.again;
+}
+
+document.getElementById('doneRestart').addEventListener('click', ()=> buildQueueAndStart());
+document.getElementById('doneOverview').addEventListener('click', ()=>{
+  viewDone.style.display='none';
+  viewOverview.style.display='block';
+  renderDeckGrid();
+});
+document.getElementById('doneNext').addEventListener('click', ()=>{
+  if(session.deckId==='all'){
+    viewDone.style.display='none';
+    viewOverview.style.display='block';
+    renderDeckGrid();
+    return;
+  }
+  const idx = DECKS.findIndex(x=>x.id===session.deckId);
+  const next = DECKS[idx+1];
+  if(next){ startSession(next.id); }
+  else {
+    viewDone.style.display='none';
+    viewOverview.style.display='block';
+    renderDeckGrid();
+  }
+});
+
+/* keyboard shortcuts during study */
+document.addEventListener('keydown', (e)=>{
+  if(viewStudy.style.display==='none' || viewStudy.style.display===''){
+    return;
+  }
+  if(document.activeElement && (document.activeElement.tagName==='BUTTON')) {
+    // allow buttons' own handlers, but still support global nav keys
+  }
+  if(e.code==='ArrowRight'){ e.preventDefault(); if(!prevBtn.disabled || true) skipBtn.click(); }
+  else if(e.code==='ArrowLeft'){ e.preventDefault(); if(!prevBtn.disabled) prevBtn.click(); }
+  else if(e.key==='1'){ if(session.flipped) rateAgainBtn.click(); }
+  else if(e.key==='2'){ if(session.flipped) rateKnowBtn.click(); }
+});
+
+/* ===================== INIT ===================== */
+renderGlobalBar();
+renderDeckGrid();
+</script>
+</body>
+</html>
